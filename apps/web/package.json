@@ -58,6 +58,6 @@
     "prisma": "^5.8.1",
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
-    "turborepo": "^0.6.0"
+    "turbo": "^0.6.0"
   }
 }
