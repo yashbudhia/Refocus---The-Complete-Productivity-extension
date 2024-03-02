@@ -5,6 +5,10 @@ node_modules
 .pnp
 .pnp.js
 
+#Typescript
+.d.ts
+.d.ts.map
+
 # Local env files
 .env
 .env.local

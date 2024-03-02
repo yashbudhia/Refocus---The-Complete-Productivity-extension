@@ -1,0 +1,13 @@
+{
+  "name": "assets",
+  "exports": {
+    ".": "./assets"
+  },
+  "version": "1.0.0",
+  "description": "Contains all assets like icons, svgs etc.",
+  "author": "Yash Budhia",
+  "dependencies": {
+    "react": "^16.13.1"
+  },
+  "devDependencies": {}
+}
