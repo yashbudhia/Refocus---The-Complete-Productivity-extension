@@ -4,8 +4,9 @@ const HtmlPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
+  devtool: "cheap-module-source-map",
   entry: {
-    popup: "./src/popup/popup.tsx",
+    popup: path.resolve("./src/popup/popup.tsx"),
   },
   module: {
     rules: [
@@ -14,12 +15,17 @@ module.exports = {
         test: /\.tsx$/,
         exclude: /node_modules\\/,
       },
+      {
+        use: ["style-loader", "css-loader"],
+        test: /\.css$/i,
+      },
     ],
   },
   plugins: [
     new HtmlPlugin({
       title: "Convert",
       filename: "popup.html",
+      chunks: ["popup"],
     }),
     new CopyPlugin({
       patterns: [
@@ -35,6 +41,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "index.js",
+    //prettier-ignore
+    filename: '[name].js',
   },
 };
