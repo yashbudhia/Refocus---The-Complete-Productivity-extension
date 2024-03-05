@@ -9,13 +9,15 @@ module.exports = {
   devtool: "cheap-module-source-map",
   entry: {
     popup: path.resolve("./src/popup/popup.tsx"),
+    options: path.resolve("./src/options/options.tsx"),
+    background: path.resolve("./src/background/background.ts"),
   },
   module: {
     rules: [
       {
         use: "ts-loader",
         test: /\.tsx$/,
-        exclude: /node_modules\\/,
+        exclude: /node_modules/,
       },
       {
         use: [
@@ -36,11 +38,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlPlugin({
-      title: "Convert",
-      filename: "popup.html",
-      chunks: ["popup"],
-    }),
     new CopyPlugin({
       patterns: [
         {
@@ -50,6 +47,7 @@ module.exports = {
         { from: path.resolve("src/assets/icon.png"), to: path.resolve("dist") },
       ],
     }),
+    ...getHtmlPlugins(["popup", "options"]),
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
@@ -58,4 +56,20 @@ module.exports = {
     //prettier-ignore
     filename: '[name].js',
   },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
 };
+
+function getHtmlPlugins(chunks) {
+  return chunks.map(
+    (chunk) =>
+      new HtmlPlugin({
+        title: "Convert",
+        filename: `${chunk}.html`,
+        chunks: [chunk],
+      })
+  );
+}

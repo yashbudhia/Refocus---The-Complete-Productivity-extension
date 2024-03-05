@@ -12,5 +12,9 @@
     "default_popup": "popup.html",
     "default_title": "React Boilerplate",
     "default_icon": "icon.png"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
   }
 }

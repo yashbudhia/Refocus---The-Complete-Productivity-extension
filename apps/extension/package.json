@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "@repo/ui": "*",
+    "@types/chrome": "^0.0.262",
+    "@types/react": "^18.2.63",
+    "@types/react-dom": "^18.2.20",
     "css-loader": "^6.10.0",
     "next": "^14.0.4",
     "postcss-loader": "^8.1.1",
