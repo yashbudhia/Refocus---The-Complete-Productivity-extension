@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "webpack --watch --progress --config webpack.config.js",
-    "start": "webpack serve --config webpack.config.js --open"
+    "watch": "webpack --watch --progress --config webpack.dev.js",
+    "start": "webpack serve --config webpack.common.js --open",
+    "build": "webpack --progress --config webpack.prod.js"
   },
   "dependencies": {
     "@repo/ui": "*",
@@ -18,7 +19,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "style-loader": "^3.3.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "webpack-merge": "^5.10.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.18",
