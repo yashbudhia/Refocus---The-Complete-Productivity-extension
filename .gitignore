@@ -6,8 +6,6 @@ node_modules
 .pnp.js
 
 #Typescript
-.d.ts
-.d.ts.map
 
 # Local env files
 .env

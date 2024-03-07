@@ -27,10 +27,8 @@
     "storage",
     "activeTab",
     "webNavigation",
-    "webRequest",
-    "webRequestBlocking",
     "tabs",
-    "contextmenus"
+    "contextMenus"
   ],
   "host_permissions": ["http://*/*", "https://*/*"]
 }
