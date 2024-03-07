@@ -22,5 +22,15 @@
       "matches": ["<all_urls>"],
       "js": ["contentScript.js"]
     }
-  ]
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "tabs",
+    "contextmenus"
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"]
 }
