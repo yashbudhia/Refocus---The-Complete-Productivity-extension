@@ -39,7 +39,9 @@ function TabDataComponent() {
             <li key={tabId}>
               <strong>Title:</strong> {tabData[tabId].title},
               <strong> URL:</strong> {tabData[tabId].url},
-              <strong> Active:</strong> {tabData[tabId].active ? "Yes" : "No"}
+              <strong> Active:</strong> {tabData[tabId].active ? "Yes" : "No"},
+              <strong> Total Time Spent:</strong>{" "}
+              {tabData[tabId].totalTimeSpent / 1000} seconds
             </li>
           ))}
         </ul>

@@ -12,7 +12,8 @@ function updateTabData(tabs) {
         active: tab.active,
         image: tab.favIconUrl,
         openedTimestamp: new Date().toISOString(),
-        timestamp: new Date().toISOString(),
+        lastActiveTimestamp: new Date().toISOString(),
+        totalTimeSpent: 0,
       };
     } else {
       // Update existing tab data
@@ -20,7 +21,7 @@ function updateTabData(tabs) {
       tabData[tab.id].url = tab.url;
       tabData[tab.id].active = tab.active;
       tabData[tab.id].image = tab.favIconUrl;
-      tabData[tab.id].timestamp = new Date().toISOString();
+      tabData[tab.id].lastActiveTimestamp = new Date().toISOString();
     }
   }
 }
@@ -29,7 +30,9 @@ function updateTabData(tabs) {
 function logTimeSpent(tabId) {
   if (tabData.hasOwnProperty(tabId)) {
     var tab = tabData[tabId];
-    var currentTime = new Date().toISOString();
+    var currentTime = new Date().getTime();
+    var openedTime = new Date(tab.openedTimestamp).getTime();
+    tab.totalTimeSpent += currentTime - openedTime;
     console.log(
       "Tab",
       tabId,
@@ -39,7 +42,10 @@ function logTimeSpent(tabId) {
       "opened at",
       tab.openedTimestamp,
       "and closed at",
-      currentTime
+      new Date().toISOString(),
+      "Total time spent:",
+      tab.totalTimeSpent / 1000, // Convert milliseconds to seconds
+      "seconds"
     );
     delete tabData[tabId];
   }
@@ -49,7 +55,7 @@ function logTimeSpent(tabId) {
 chrome.tabs.onActivated.addListener(function (activeInfo) {
   var tabId = activeInfo.tabId;
   if (tabData.hasOwnProperty(tabId)) {
-    tabData[tabId].timestamp = new Date().toISOString();
+    tabData[tabId].lastActiveTimestamp = new Date().toISOString();
   }
 });
 
@@ -66,18 +72,21 @@ chrome.tabs.onRemoved.addListener(function (tabId) {
 // Initial query for tabs
 chrome.tabs.query({}, updateTabData);
 
-// Listen for messages from content scripts and Express server
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.action === "getTabData") {
-    sendResponse(tabData); // Send the tabData object to the content script
-  } else if (message.action === "getTabDataFromExpress") {
-    // Handle request from Express server
-    sendResponse(tabData);
-  }
-});
-
 // Function to send tabData to the Express server
 function sendTabDataToExpress() {
+  // Calculate time spent on each tab and update tabData
+  for (const tabId in tabData) {
+    if (tabData.hasOwnProperty(tabId)) {
+      const tab = tabData[tabId];
+      if (tab.active) {
+        const currentTime = new Date().getTime();
+        const lastActiveTime = new Date(tab.lastActiveTimestamp).getTime();
+        tab.totalTimeSpent += currentTime - lastActiveTime;
+        tab.lastActiveTimestamp = new Date().toISOString();
+      }
+    }
+  }
+
   // Make a POST request to the Express server endpoint
   fetch("http://localhost:3000/tab-data", {
     method: "POST",
