@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Refocus",
+  "description": "Refocus is a simple extension that helps you focus on your work by blocking distracting websites.",
+  "version": "0.0.1",
+  "icons": {
+    "16": "icon.png",
+    "24": "icon.png",
+    "32": "icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "React Boilerplate",
+    "default_icon": "icon.png"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webNavigation",
+    "tabs",
+    "contextMenus"
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"]
+}
